@@ -202,6 +202,8 @@ class SnakeScene(Scene):
             if new_grid_pos == (food_grid_x, food_grid_y):
                 ate_food = True
                 self.score += 1
+                if self.score == 30:
+                    self.engine.events.steam_achievements.emit(achievement_api_name="S")
                 self.score_text.text = f"Score: {self.score}"
                 self.destroy_entity(self.food_entity)
                 self.food_entity = None

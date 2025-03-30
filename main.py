@@ -106,6 +106,8 @@ if __name__ == "__main__":
     scene_manager.register_scene("blackjack", blackjack_game)
     scene_manager.register_scene("roadrunner", roadrunner_game)
 
+    print(engine.steamworks_system.get_achievement_status(achievement_api_name="SNAKE_30"))
+
     # Set Initial Scene
     scene_manager.set_active_scene("main_menu")
 

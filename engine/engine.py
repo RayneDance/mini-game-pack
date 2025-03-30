@@ -7,6 +7,7 @@ from engine.systems.collusion_system import CollisionSystem
 from engine.systems.render_system import RenderSystem
 from engine.resourcemanager import ResourceManager
 from engine.scene_manager import SceneManager
+from engine.steamworks_sys import SteamworksSystem
 
 class Engine:
     def __init__(self, pygame, auto_start=False, fps_limit=60, assets_path="assets"):
@@ -28,7 +29,8 @@ class Engine:
         self.entities = []
         self.collision_system = CollisionSystem(self)
         self.render_system = RenderSystem(self)
-        self.systems = [self.collision_system, self.render_system]
+        self.steamworks_system = SteamworksSystem(self)
+        self.systems = [self.collision_system, self.render_system, self.steamworks_system]
 
         self.scene_manager = SceneManager(self)
 

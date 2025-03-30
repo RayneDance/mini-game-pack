@@ -23,6 +23,7 @@ class Events:
         self.key_up = EventBus()
         self.key_pressed = EventBus()
         self.mouse_button_down = EventBus()
+        self.steam_achievements = EventBus()
 
 class PygameEvents:
     def __init__(self, events: Events, pygame, engine):
