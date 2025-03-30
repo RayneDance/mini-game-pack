@@ -67,7 +67,6 @@ mini-game-pack/
 │   ├── main_menu_scene.py
 │   └── snake_scene.py
 ├── main.py             # Main application entry point, scene setup
-├── requirements.txt    # Project dependencies for uv/pip
 └── README.md           # Project description and setup instructions
 ```
 
@@ -83,7 +82,4 @@ mini-game-pack/
 
 ## License
 
-[Choose and insert your license here - e.g., MIT License]
-
-*Consider adding a `LICENSE` file to your repository.*
-You can choose a license at [https://choosealicense.com/](https://choosealicense.com/). The MIT license is a popular and permissive choice for open-source projects.
+I take no responsibility for this code. I don't recommend running it, reading it, cloning it, or doing anything with it. It is provided as is, likely has awful bugs, and should not be used for any purpose. Any use is at your own risk, but you may use for any purpose you see fit.
