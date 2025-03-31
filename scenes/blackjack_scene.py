@@ -73,6 +73,8 @@ class BlackjackScene(Scene):
         self.dealer_card_hidden = True
         self.card_size = (TARGET_CARD_WIDTH, TARGET_CARD_HEIGHT)# Store card image size once loaded
 
+        self.consecutive_wins = 0
+
         self.dealer_last_action = 0
 
         # --- Preload Card Back ---
@@ -354,8 +356,13 @@ class BlackjackScene(Scene):
     def _determine_winner(self):
          # ... (no changes needed) ...
          if self.player_score > self.dealer_score:
+            self.consecutive_wins += 1
+            if self.consecutive_wins == 5:
+                print("Steam achievement: B")
+                self.engine.events.steam_achievements.emit(achievement_api_name="B")
             return "Player wins!"
          elif self.dealer_score > self.player_score:
+            self.consecutive_wins = 0
             return "Dealer wins!"
          else:
             return "Push!"

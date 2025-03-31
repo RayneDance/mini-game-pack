@@ -5,6 +5,7 @@ from engine.components.transform import Transform
 from engine.components.render import Render
 from engine.systems.collusion_system import CollisionSystem
 from engine.systems.render_system import RenderSystem
+from engine.systems.music_system import MusicSystem
 from engine.resourcemanager import ResourceManager
 from engine.scene_manager import SceneManager
 from engine.steamworks_sys import SteamworksSystem
@@ -30,7 +31,8 @@ class Engine:
         self.collision_system = CollisionSystem(self)
         self.render_system = RenderSystem(self)
         self.steamworks_system = SteamworksSystem(self)
-        self.systems = [self.collision_system, self.render_system, self.steamworks_system]
+        self.music_system = MusicSystem(self)
+        self.systems = [self.collision_system, self.render_system, self.steamworks_system, self.music_system]
 
         self.scene_manager = SceneManager(self)
 

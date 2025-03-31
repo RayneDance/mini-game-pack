@@ -16,9 +16,9 @@ LINK_FONT_SIZE = 22
 TEXT_COLOR = (230, 230, 230)
 CATEGORY_COLOR = (180, 220, 255) # Light blue for category titles
 LINK_COLOR = (100, 150, 255) # Brighter blue for links
-LINE_SPACING_SMALL = 35
-LINE_SPACING_LARGE = 55
-TOP_MARGIN = 100
+LINE_SPACING_SMALL = 25
+LINE_SPACING_LARGE = 40
+TOP_MARGIN = 50
 BACKGROUND_COLOR = (25, 25, 45) # Darker purple/blue
 
 class CreditsScene(Scene): # Changed class name to CreditsScene for consistency
@@ -65,7 +65,7 @@ class CreditsScene(Scene): # Changed class name to CreditsScene for consistency
 
         # Libraries Section
         add_centered_line("Libraries", CATEGORY_FONT_SIZE, CATEGORY_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL * 1.2
+        current_y += LINE_SPACING_SMALL
 
         add_centered_line("Pygame", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
         current_y += LINE_SPACING_SMALL * 0.8
@@ -80,13 +80,24 @@ class CreditsScene(Scene): # Changed class name to CreditsScene for consistency
 
         # Assets Section
         add_centered_line("Assets", CATEGORY_FONT_SIZE, CATEGORY_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL * 1.2
+        current_y += LINE_SPACING_SMALL
 
         add_centered_line("52 Card Decks - More Than Just A Game", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
         current_y += LINE_SPACING_SMALL * 0.8
         add_centered_line("https://www.fab.com/...", LINK_FONT_SIZE, LINK_COLOR, current_y, url="https://www.fab.com/listings/57e8bc76-6f19-4b5e-bf09-e912eba4c88f") # Truncated link for display
         # Note: The fab.com link might be transient or lead to a specific product listing.
         # Consider finding a more permanent link to the asset creator/source if possible.
+        current_y += LINE_SPACING_LARGE
+
+        add_centered_line("Music", CATEGORY_FONT_SIZE, CATEGORY_COLOR, current_y)
+        current_y += LINE_SPACING_SMALL
+        add_centered_line("Alonzo Suarez", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
+        current_y += LINE_SPACING_SMALL
+        add_centered_line("YouTube", ITEM_FONT_SIZE, LINK_COLOR, current_y, url="https://www.youtube.com/@StonePanda")
+        current_y += LINE_SPACING_LARGE
+        add_centered_line("Austin Trevino", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
+        current_y += LINE_SPACING_SMALL
+        add_centered_line("Linktr.ee", ITEM_FONT_SIZE, LINK_COLOR, current_y, url="https://linktr.ee/cursedatx")
         current_y += LINE_SPACING_LARGE
 
         # Add more sections/items as needed (e.g., Developer, Engine, Fonts, Music)
