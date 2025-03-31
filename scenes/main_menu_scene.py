@@ -18,7 +18,7 @@ class MainMenuScene(Scene):
     def load(self):
         print("MainMenuScene Loading...")
         screen_width = self.engine.screen.width
-        screen_height = self.engine.screen.height # Not used currently, but good to have
+        screen_height = self.engine.screen.height
 
         # --- Create Title (no changes needed) ---
         self.title = self.create_entity(TextEntity,
@@ -30,10 +30,10 @@ class MainMenuScene(Scene):
             self.title.components[Transform].x -= title_width // 2
 
         # --- Create Menu Items (no changes needed) ---
-        self.menu_options = ["Snake", "Blackjack", "Roadrunner", "Quit"]
+        self.menu_options = ["Snake", "Blackjack", "Roadrunner", "Credits", "Quit"]
         self.menu_entities = []
         self.selected_index = 0
-        start_y = 250
+        start_y = 200
         y_spacing = 60
         for i, option in enumerate(self.menu_options):
             entity = self.create_entity(TextEntity,
@@ -122,11 +122,15 @@ class MainMenuScene(Scene):
         selected_option = self.menu_options[self.selected_index]
         print(f"Selected: {selected_option}")
         # Navigation logic remains the same
-        if selected_option == "Snake":
-            self.scene_manager.set_active_scene("snake")
-        elif selected_option == "Blackjack":
-            self.scene_manager.set_active_scene("blackjack")
-        elif selected_option == "Roadrunner":
-            self.scene_manager.set_active_scene("roadrunner")
-        elif selected_option == "Quit":
-            self.engine.exit()
+
+        match selected_option:
+            case "Snake":
+                self.scene_manager.set_active_scene("snake")
+            case "Blackjack":
+                self.scene_manager.set_active_scene("blackjack")
+            case "Roadrunner":
+                self.scene_manager.set_active_scene("roadrunner")
+            case "Credits":
+                self.scene_manager.set_active_scene("credits")
+            case "Quit":
+                self.engine.exit()

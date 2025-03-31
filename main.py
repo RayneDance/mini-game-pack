@@ -7,6 +7,7 @@ from engine.ui.text_entity import TextEntity
 from scenes.blackjack_scene import BlackjackScene
 from scenes.main_menu_scene import MainMenuScene
 from scenes.snake_scene import SnakeScene
+from scenes.credits import CreditsScene
 
 # --- Global Constants ---
 # Constants needed by main setup or potentially shared (like screen size)
@@ -17,8 +18,8 @@ SNAKE_GRID_HEIGHT = 20
 SNAKE_TILE_SIZE = 30
 # Calculate screen size based on Snake grid
 # Note: Other games might need different sizes, requiring window resizing later
-SCREEN_WIDTH = SNAKE_GRID_WIDTH * SNAKE_TILE_SIZE
-SCREEN_HEIGHT = SNAKE_GRID_HEIGHT * SNAKE_TILE_SIZE
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
 class PlaceholderScene(Scene):
     """A simple placeholder for minigames."""
@@ -99,12 +100,14 @@ if __name__ == "__main__":
     snake_game = SnakeScene(engine, scene_manager, grid_width=SNAKE_GRID_WIDTH, grid_height=SNAKE_GRID_HEIGHT, tile_size=SNAKE_TILE_SIZE)
     blackjack_game = BlackjackScene(engine, scene_manager)
     roadrunner_game = PlaceholderScene(engine, scene_manager, "Roadrunner")
+    credits_scene = CreditsScene(engine, scene_manager)
 
     # Register Scenes
     scene_manager.register_scene("main_menu", main_menu)
     scene_manager.register_scene("snake", snake_game)
     scene_manager.register_scene("blackjack", blackjack_game)
     scene_manager.register_scene("roadrunner", roadrunner_game)
+    scene_manager.register_scene("credits", credits_scene)
 
     print(engine.steamworks_system.get_achievement_status(achievement_api_name="SNAKE_30"))
 

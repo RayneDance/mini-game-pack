@@ -16,6 +16,8 @@ class SceneManager:
 
     def set_active_scene(self, name: str):
         """Switches the active scene."""
+        print(self.engine.entities)
+        print(self.engine.objs)
         if name not in self._scenes:
             print(f"Error: Cannot set active scene. Scene '{name}' not registered.")
             return

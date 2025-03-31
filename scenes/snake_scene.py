@@ -46,6 +46,7 @@ class SnakeScene(Scene):
     def load(self):
         print("SnakeScene Loading...")
         self.engine.render_system.set_background_color(BACKGROUND_COLOR)
+        self.engine.screen.set_screen_size(self.grid_width * self.tile_size, self.grid_height * self.tile_size)
 
         # Game State - use self.grid_width/height directly
         print(f"Grid Dimensions: {self.grid_width}x{self.grid_height}")

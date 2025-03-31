@@ -41,57 +41,72 @@ class ResourceManager:
         """Constructs the full path to a resource."""
         return os.path.join(self.base_path, resource_type_folder, filename)
 
-    def load_image(self, filename, use_alpha=True):
+    def load_image(self, filename, use_alpha=True, target_width=None, target_height=None):
         """
-        Loads an image from the 'images' subfolder. Caches it if successful.
+        Loads an image, optionally scaling it. Caches based on filename AND target size.
 
         Args:
             filename (str): The name of the image file (e.g., 'player.png').
-            use_alpha (bool): Whether to load with transparency support (.convert_alpha()).
+            use_alpha (bool): Load with transparency support.
+            target_width (int | None): Desired width, or None for original.
+            target_height (int | None): Desired height, or None for original.
 
         Returns:
-            pygame.Surface: The loaded (or cached) image surface, or a fallback surface on error.
+            pygame.Surface: The loaded/scaled/cached surface, or a fallback surface.
         """
-        if filename in self._image_cache:
-            return self._image_cache[filename]
+        # Use size in cache key. None indicates original size.
+        cache_key = (filename, target_width, target_height)
+        if cache_key in self._image_cache:
+            return self._image_cache[cache_key]
 
+        # Build path relative to 'assets/images/'
         full_path = self._build_path("images", filename)
 
         try:
-            print(f"Loading image: {full_path}") # Debug print
+            print(f"Loading image: {full_path}")
             image = pygame.image.load(full_path)
 
             if use_alpha:
-                image = image.convert_alpha() # Use transparency
+                image = image.convert_alpha()
             else:
-                image = image.convert() # Opaque images
+                image = image.convert()
 
-            self._image_cache[filename] = image
-            return image
+            # --- Scaling Logic ---
+            final_image = image
+            if target_width is not None and target_height is not None:
+                 try:
+                     print(f"Scaling image '{filename}' to {target_width}x{target_height}")
+                     # Use smoothscale for better quality
+                     final_image = pygame.transform.smoothscale(image, (target_width, target_height))
+                 except Exception as scale_error:
+                     print(f"Error scaling image '{filename}': {scale_error}")
+                     # Fallback to unscaled or the generic fallback? Let's use unscaled for now.
+                     final_image = image # Use original if scaling fails
+
+            # Cache the potentially scaled image
+            self._image_cache[cache_key] = final_image
+            return final_image
 
         except pygame.error as e:
             print(f"Error loading image '{full_path}': {e}")
-            # Store and return the fallback image for this filename
-            self._image_cache[filename] = self.fallback_image
-            return self.fallback_image
+            # Cache and return fallback for this size request
+            scaled_fallback = pygame.transform.scale(self.fallback_image, (target_width or 32, target_height or 32))
+            self._image_cache[cache_key] = scaled_fallback
+            return scaled_fallback
         except FileNotFoundError:
              print(f"Error: Image file not found at '{full_path}'")
-             self._image_cache[filename] = self.fallback_image
-             return self.fallback_image
+             scaled_fallback = pygame.transform.scale(self.fallback_image, (target_width or 32, target_height or 32))
+             self._image_cache[cache_key] = scaled_fallback
+             return scaled_fallback
 
-    def get_image(self, filename):
+    def get_image(self, filename, target_width=None, target_height=None):
         """
-        Retrieves a previously loaded image from the cache.
-        If not loaded, attempts to load it.
-
-        Args:
-            filename (str): The name of the image file.
-
-        Returns:
-            pygame.Surface: The image surface or fallback surface.
+        Retrieves a previously loaded image from the cache, optionally scaled.
+        If not loaded, attempts to load and scale it.
         """
-        # This essentially becomes an alias for load_image as load_image checks cache first
-        return self.load_image(filename)
+        # Pass scaling parameters to load_image
+        return self.load_image(filename, target_width=target_width, target_height=target_height)
+
 
     def load_sound(self, filename):
         """
