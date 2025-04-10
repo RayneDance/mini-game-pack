@@ -53,7 +53,7 @@ class BlackjackScene(Scene):
 
     def load(self):
         print("BlackjackScene Loading...")
-        self.engine.render_system.set_background_color(self.BACKGROUND_COLOR)
+        self.engine.render_system.set_background_color(self.BACKGROUND_COLOR) 
         self.engine.screen.set_screen_size(800, 600)
         self.engine.events.tick.subscribe(self._update)
         # Game State Variables
@@ -234,7 +234,7 @@ class BlackjackScene(Scene):
          return entity
 
     # --- Game Logic (Core logic remains mostly the same) ---
-    def _create_deck(self): 
+    def _create_deck(self):
         self.deck = [(rank, suit) for rank in DECK_RANKS for suit in DECK_SUITS]
 
     def _shuffle_deck(self):
@@ -334,7 +334,7 @@ class BlackjackScene(Scene):
         self.dealer_score = self._calculate_hand_value(self.dealer_hand)
         self.message = "Dealer's turn..."
         self._update_display() # Update display to show revealed card
-
+    
     
     def _dealer_play(self):
         if self.dealer_score < DEALER_STAND_MIN:
@@ -401,7 +401,7 @@ class BlackjackScene(Scene):
         # Update Button Appearance
         is_player_turn = (self.game_state == STATE_PLAYER_TURN)
         self.hit_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR 
-        self.stand_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR 
+        self.stand_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR
 
 
     # --- Input Handling (Remains largely the same, but add click-to-restart) ---
@@ -425,22 +425,21 @@ class BlackjackScene(Scene):
 
         if self.game_state == STATE_PLAYER_TURN:
              # ... (Hit/Stand button click logic remains same) ...
-              # Check Hit Button
-            if self.hit_button.components[Render].texture: 
-                 hit_rect = self.hit_button.components[Render].texture.get_rect(
-                     topleft=(self.hit_button.components[Transform].x, self.hit_button.components[Transform].y))
-                 if hit_rect.collidepoint(pos):
-                     self._player_hit()
-                     return 
-
+            # Check Hit Button
+            if self.hit_button.components[Render].texture:
+                hit_rect = self.hit_button.components[Render].texture.get_rect(
+                    topleft=(self.hit_button.components[Transform].x, self.hit_button.components[Transform].y))
+                if hit_rect.collidepoint(pos):
+                    self._player_hit()
+                    return
+            
             # Check Stand Button
             if self.stand_button.components[Render].texture:
-                 stand_rect = self.stand_button.components[Render].texture.get_rect(
-                     topleft=(self.stand_button.components[Transform].x, self.stand_button.components[Transform].y))
-                 if stand_rect.collidepoint(pos):
-                     self._player_stand()
-                     return
-        
+                stand_rect = self.stand_button.components[Render].texture.get_rect(
+                    topleft=(self.stand_button.components[Transform].x, self.stand_button.components[Transform].y))
+                if stand_rect.collidepoint(pos):
+                    self._player_stand()
+                    return
         elif self.game_state == STATE_ROUND_OVER:
             # If round is over, any click starts a new round
             print("Click detected to start new round.")

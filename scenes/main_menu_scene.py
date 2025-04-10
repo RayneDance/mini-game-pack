@@ -10,11 +10,11 @@ from engine.ui.text_entity import TextEntity
 
 class MainMenuScene(Scene):
     # Class variables for Main Menu constants
-    MENU_FONT_NAME = None # Use Pygame default font
+    MENU_FONT_NAME = None  # Use Pygame default font
     MENU_FONT_SIZE = 48
     MENU_ITEM_FONT_SIZE = 36
-    TEXT_COLOR = (230, 230, 230) # Light grey/white
-    HIGHLIGHT_COLOR = (255, 255, 0) # Yellow
+    TEXT_COLOR = (230, 230, 230)  # Light grey/white
+    HIGHLIGHT_COLOR = (255, 255, 0)  # Yellow
 
     def load(self):
         print("MainMenuScene Loading...")
@@ -22,8 +22,8 @@ class MainMenuScene(Scene):
         screen_height = self.engine.screen.height
         
         # --- Create Title (no changes needed) ---
-        self.title = self.create_entity(TextEntity,
-            text="Main Menu", font_name=self.MENU_FONT_NAME, font_size=self.MENU_FONT_SIZE,
+        self.title = self.create_entity(TextEntity, text="Main Menu",
+                                        font_name=self.MENU_FONT_NAME, font_size=self.MENU_FONT_SIZE,
             color=self.TEXT_COLOR, engine=self.engine, x=screen_width // 2, y=100
         )
         if Render in self.title.components and self.title.components[Render].texture:
@@ -37,10 +37,10 @@ class MainMenuScene(Scene):
         start_y = 200
         y_spacing = 60
         for i, option in enumerate(self.menu_options):
-            entity = self.create_entity(TextEntity,
-                text=option, font_name=self.MENU_FONT_NAME, font_size=self.MENU_ITEM_FONT_SIZE,
-                color=self.TEXT_COLOR, engine=self.engine,
-                x=screen_width // 2, y = start_y + i * y_spacing
+            entity = self.create_entity(TextEntity, text=option,
+                                        font_name=self.MENU_FONT_NAME, font_size=self.MENU_ITEM_FONT_SIZE,
+                                        color=self.TEXT_COLOR, engine=self.engine,
+                                        x=screen_width // 2, y=start_y + i * y_spacing
             )          
             if Render in entity.components and entity.components[Render].texture:
                 text_width = entity.components[Render].texture.get_width()

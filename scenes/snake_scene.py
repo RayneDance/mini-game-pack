@@ -14,30 +14,30 @@ from engine.components.drawables import DrawDepth # Optional: If needed for laye
 class SnakeScene(Scene):
     # --- Snake Game Constants (Class Variables)---
     MOVE_INTERVAL = 200  # Seconds between snake moves (controls speed)
-
+    
     # --- Colors (Class Variables)---
     BACKGROUND_COLOR = (10, 10, 25)  # Background
     SNAKE_COLOR = (0, 255, 0)  # Snake body
     FOOD_COLOR = (255, 0, 0)  # Food
     TEXT_COLOR = (230, 230, 230)  # UI text
     GAME_OVER_COLOR = (255, 50, 50)  # Game Over text
-    BORDER_COLOR = (255, 255, 0)  # Border color (Yellow)
-    BORDER_THICKNESS = 3  # Border thickness
-
+    BORDER_COLOR = (255, 255, 0) # Yellow
+    BORDER_THICKNESS = 3
+    
     # --- Directions (Class Variables) ---
-    UP = (0, -1)  # Up
-    DOWN = (0, 1)  # Down
-    LEFT = (-1, 0)  # Left
-    RIGHT = (1, 0)  # Right
-
+    UP = (0, -1)
+    DOWN = (0, 1)
+    LEFT = (-1, 0)
+    RIGHT = (1, 0)
 
     # Accept grid parameters in constructor
     def __init__(self, engine, scene_manager, grid_width, grid_height, tile_size):
         super().__init__(engine, scene_manager)
-
+        
         self.grid_width = grid_width
         self.grid_height = grid_height
         self.tile_size = tile_size
+        
         # Calculate screen dimensions based on passed grid info (for centering, etc.)
         self.screen_width = self.grid_width * self.tile_size
         self.screen_height = self.grid_height * self.tile_size
@@ -47,8 +47,8 @@ class SnakeScene(Scene):
         print("SnakeScene Loading...")
         self.engine.render_system.set_background_color(self.BACKGROUND_COLOR) #Use class variable
         self.engine.screen.set_screen_size(self.grid_width * self.tile_size, self.grid_height * self.tile_size)
-
-        # Game State
+        
+         # Game State
         print(f"Grid Dimensions: {self.grid_width}x{self.grid_height}")
 
         self.snake_segments = deque()
@@ -61,9 +61,9 @@ class SnakeScene(Scene):
         self.game_over_entities = []
 
         # Create UI
-        self.score_text = self.create_entity(TextEntity, # Use class variable
-            text=f"Score: {self.score}", font_name=None, font_size=24, # Use class variable
-            color=self.TEXT_COLOR, engine=self.engine, x=10, y=10, depth=DrawDepth.UI
+        self.score_text = self.create_entity(TextEntity,
+            text=f"Score: {self.score}", font_name=None, font_size=24,
+            color=self.TEXT_COLOR, engine=self.engine, x=10, y=10, depth=DrawDepth.UI # Use class variable
         )
 
         # Initialize Game Elements
@@ -79,7 +79,7 @@ class SnakeScene(Scene):
         """Draws elements directly onto the screen after entities are rendered."""
         # Draw the border rectangle
         border_rect = pygame.Rect(0, 0, self.screen_width, self.screen_height)
-        pygame.draw.rect(surface, self.BORDER_COLOR, border_rect, self.BORDER_THICKNESS) #Use class variable
+        pygame.draw.rect(surface, self.BORDER_COLOR, border_rect, self.BORDER_THICKNESS)
 
     def unload(self):
         super().unload()
@@ -91,7 +91,7 @@ class SnakeScene(Scene):
             return  # Do nothing if game is over
 
         self.move_timer += dt
-        if self.move_timer >= self.MOVE_INTERVAL: #Use class variable
+        if self.move_timer >= self.MOVE_INTERVAL:
             self.move_timer -= self.MOVE_INTERVAL  # Subtract interval for accuracy
             self._move_snake()
             
@@ -100,13 +100,13 @@ class SnakeScene(Scene):
         new_direction = self.direction
 
         if key == pygame.K_UP or key == pygame.K_w:
-            new_direction = self.UP #Use class variable
+            new_direction = self.UP
         elif key == pygame.K_DOWN or key == pygame.K_s:
-            new_direction = self.DOWN #Use class variable
+            new_direction = self.DOWN
         elif key == pygame.K_LEFT or key == pygame.K_a:
-            new_direction = self.LEFT #Use class variable
+            new_direction = self.LEFT
         elif key == pygame.K_RIGHT or key == pygame.K_d:
-            new_direction = self.RIGHT #Use class variable
+            new_direction = self.RIGHT
         elif key == pygame.K_ESCAPE:          
             # Always allow returning to menu
             self.scene_manager.set_active_scene("main_menu")
@@ -137,13 +137,13 @@ class SnakeScene(Scene):
             transform = Transform(pixel_x, pixel_y)
             render = Render()
             render.set_draw_depth(DrawDepth.OBJECT)
-            segment_surface = pygame.Surface((self.tile_size, self.tile_size)) # Use class variable
-            segment_surface.fill(self.SNAKE_COLOR) #Use class variable
+            segment_surface = pygame.Surface((self.tile_size, self.tile_size))
+            segment_surface.fill(self.SNAKE_COLOR)
             pygame.draw.rect(segment_surface, (0, 150, 0), segment_surface.get_rect(), 1)
             render.set_texture(segment_surface)
-            segment_entity = self.engine.new_entity(transform=transform, render=render) # Use class variable
+            segment_entity = self.engine.new_entity(transform=transform, render=render)
             self.add_entity(segment_entity)
-            self.snake_segments.append(segment_entity)
+            self.snake_segments.append(segment_entity) 
 
         self.direction = RIGHT
         self.next_direction = RIGHT
@@ -160,7 +160,7 @@ class SnakeScene(Scene):
         # Use self.tile_size for calculations
         current_grid_x = head_transform.x // self.tile_size
         current_grid_y = head_transform.y // self.tile_size
-        new_grid_x = current_grid_x + self.direction[0]
+        new_grid_x = current_grid_x + self.direction[0] 
         new_grid_y = current_grid_y + self.direction[1]
         new_grid_pos = (new_grid_x, new_grid_y) #Use class variable
 
@@ -185,13 +185,13 @@ class SnakeScene(Scene):
         transform = Transform(pixel_x, pixel_y)
         render = Render()
         render.set_draw_depth(DrawDepth.OBJECT)
-        segment_surface = pygame.Surface((self.tile_size, self.tile_size)) # Use class variable
-        segment_surface.fill(self.SNAKE_COLOR) #Use class variable
+        segment_surface = pygame.Surface((self.tile_size, self.tile_size))
+        segment_surface.fill(self.SNAKE_COLOR)
         pygame.draw.rect(segment_surface, (0, 150, 0), segment_surface.get_rect(), 1)
         render.set_texture(segment_surface)
-        new_head_entity = self.engine.new_entity(transform=transform, render=render) # Use class variable
+        new_head_entity = self.engine.new_entity(transform=transform, render=render)
         self.add_entity(new_head_entity)
-        self.snake_segments.appendleft(new_head_entity)
+        self.snake_segments.appendleft(new_head_entity) 
 
         # Check Food Collision
         ate_food = False
@@ -250,13 +250,13 @@ class SnakeScene(Scene):
         transform = Transform(pixel_x, pixel_y)
         render = Render()
         render.set_draw_depth(DrawDepth.OBJECT)
-        
-        food_surface = pygame.Surface((self.tile_size, self.tile_size)) # Use class variable       
-        food_surface.fill(self.FOOD_COLOR) # Use class variable
-        
+
+        food_surface = pygame.Surface((self.tile_size, self.tile_size))
+        food_surface.fill(self.FOOD_COLOR)
+
         pygame.draw.circle(food_surface, (150, 0, 0), (self.tile_size // 2, self.tile_size // 2), self.tile_size // 2 - 2)
         render.set_texture(food_surface)
-
+        
         self.food_entity = self.create_entity(
             Entity,
             transform=transform,
@@ -276,16 +276,16 @@ class SnakeScene(Scene):
         screen_width = self.screen_width
         screen_height = self.screen_height
 
-        go_text = self.create_entity(TextEntity,
-            text="Game Over!", font_name=None, font_size=72, color=self.GAME_OVER_COLOR, # Use class variable\
+        go_text = self.create_entity(TextEntity, 
+            text="Game Over!", font_name=None, font_size=72, color=self.GAME_OVER_COLOR,
             engine=self.engine, x=screen_width // 2, y=screen_height // 2 - 60, depth=DrawDepth.UI
         )
         if Render in go_text.components and go_text.components[Render].texture:
              text_width = go_text.components[Render].texture.get_width()
              go_text.components[Transform].x -= text_width // 2
         self.game_over_entities.append(go_text)
-        
-        restart_text = self.create_entity(TextEntity,
+
+        restart_text = self.create_entity(TextEntity, 
             text="Press Enter/Space to Restart or ESC for Menu",
             font_name=None, font_size=30, color=self.TEXT_COLOR, # Use class variable
             engine=self.engine, x=screen_width // 2, y=screen_height // 2 + 20, depth=DrawDepth.UI
@@ -324,7 +324,7 @@ class SnakeScene(Scene):
 
         # Update score display
         self.score_text.text = f"Score: {self.score}"       
-
+        
         # Re-initialize snake and food
         self._create_initial_snake()
         self._spawn_food()
