@@ -52,8 +52,8 @@ class SnakeScene(Scene):
         print(f"Grid Dimensions: {self.grid_width}x{self.grid_height}")
 
         self.snake_segments = deque()
-        self.direction = RIGHT
-        self.next_direction = RIGHT
+        self.direction = self.RIGHT
+        self.next_direction = self.RIGHT
         self.food_entity = None
         self.score = 0
         self.move_timer = 0.0
@@ -145,8 +145,8 @@ class SnakeScene(Scene):
             self.add_entity(segment_entity)
             self.snake_segments.append(segment_entity) 
 
-        self.direction = RIGHT
-        self.next_direction = RIGHT
+        self.direction = self.RIGHT
+        self.next_direction = self.RIGHT
 
 
     def _move_snake(self):

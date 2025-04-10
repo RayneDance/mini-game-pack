@@ -235,7 +235,7 @@ class BlackjackScene(Scene):
 
     # --- Game Logic (Core logic remains mostly the same) ---
     def _create_deck(self):
-        self.deck = [(rank, suit) for rank in DECK_RANKS for suit in DECK_SUITS]
+        self.deck = [(rank, suit) for rank in self.DECK_RANKS for suit in self.DECK_SUITS]
 
     def _shuffle_deck(self):
         random.shuffle(self.deck)
@@ -314,7 +314,7 @@ class BlackjackScene(Scene):
 
 
     def _player_hit(self):
-        if self.game_state != STATE_PLAYER_TURN: return
+        if self.game_state != self.STATE_PLAYER_TURN: return
         print("Player hits.")
         self._deal_card(self.player_hand) # Deal to logical hand
         self.player_score = self._calculate_hand_value(self.player_hand)
@@ -327,9 +327,9 @@ class BlackjackScene(Scene):
 
 
     def _player_stand(self):
-        if self.game_state != STATE_PLAYER_TURN: return
+        if self.game_state != self.STATE_PLAYER_TURN: return
         print("Player stands.")
-        self.game_state = STATE_DEALER_TURN
+        self.game_state = self.STATE_DEALER_TURN
         self.dealer_card_hidden = False # Reveal card (logical state)
         self.dealer_score = self._calculate_hand_value(self.dealer_hand)
         self.message = "Dealer's turn..."
@@ -337,7 +337,7 @@ class BlackjackScene(Scene):
     
     
     def _dealer_play(self):
-        if self.dealer_score < DEALER_STAND_MIN:
+        if self.dealer_score < self.DEALER_STAND_MIN:
             print("Dealer hits.") 
             self._deal_card(self.dealer_hand) # Deal to logical hand
             self.dealer_score = self._calculate_hand_value(self.dealer_hand)
@@ -365,7 +365,7 @@ class BlackjackScene(Scene):
 
     def _end_round(self, result_message):
         print(f"Round Over: {result_message}")
-        self.game_state = STATE_ROUND_OVER
+        self.game_state = self.STATE_ROUND_OVER
         self.hit_button.set_visible(False)
         self.stand_button.set_visible(False)
         self.message = f"{result_message} (Press Enter/Space/Click to deal again)"
@@ -399,7 +399,7 @@ class BlackjackScene(Scene):
             self.message_text.components[Transform].x = (self.engine.screen.width - text_width) // 2
 
         # Update Button Appearance
-        is_player_turn = (self.game_state == STATE_PLAYER_TURN)
+        is_player_turn = (self.game_state == self.STATE_PLAYER_TURN)
         self.hit_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR 
         self.stand_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR
 
@@ -411,19 +411,19 @@ class BlackjackScene(Scene):
             self.scene_manager.set_active_scene("main_menu")
             return
 
-        if self.game_state == STATE_PLAYER_TURN:
+        if self.game_state == self.STATE_PLAYER_TURN:
             if key == pygame.K_h:
                 self._player_hit()
             elif key == pygame.K_s:
                 self._player_stand()
-        elif self.game_state == STATE_ROUND_OVER:
+        elif self.game_state == self.STATE_ROUND_OVER:
             if key == pygame.K_RETURN or key == pygame.K_SPACE:
                 self._start_new_round()
 
     def handle_mouse_click(self, pos, button):
         if button != 1: return # Left click only
 
-        if self.game_state == STATE_PLAYER_TURN:
+        if self.game_state == self.STATE_PLAYER_TURN:
              # ... (Hit/Stand button click logic remains same) ...
             # Check Hit Button
             if self.hit_button.components[Render].texture:
@@ -440,7 +440,7 @@ class BlackjackScene(Scene):
                 if stand_rect.collidepoint(pos):
                     self._player_stand()
                     return
-        elif self.game_state == STATE_ROUND_OVER:
+        elif self.game_state == self.STATE_ROUND_OVER:
             # If round is over, any click starts a new round
             print("Click detected to start new round.")
             self._start_new_round()
