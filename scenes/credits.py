@@ -8,23 +8,24 @@ from engine.components.drawables import DrawDepth # Assuming DrawDepth is in dra
 from engine.scene import Scene
 from engine.ui.text_entity import TextEntity
 
-# Constants for Credits Scene
-TITLE_FONT_SIZE = 48
-CATEGORY_FONT_SIZE = 32
-ITEM_FONT_SIZE = 26
-LINK_FONT_SIZE = 22
-TEXT_COLOR = (230, 230, 230)
-CATEGORY_COLOR = (180, 220, 255) # Light blue for category titles
-LINK_COLOR = (100, 150, 255) # Brighter blue for links
-LINE_SPACING_SMALL = 25
-LINE_SPACING_LARGE = 40
-TOP_MARGIN = 50
-BACKGROUND_COLOR = (25, 25, 45) # Darker purple/blue
 
 class CreditsScene(Scene): # Changed class name to CreditsScene for consistency
+    # Constants for Credits Scene
+    TITLE_FONT_SIZE = 48
+    CATEGORY_FONT_SIZE = 32
+    ITEM_FONT_SIZE = 26
+    LINK_FONT_SIZE = 22
+    TEXT_COLOR = (230, 230, 230)
+    CATEGORY_COLOR = (180, 220, 255) # Light blue for category titles
+    LINK_COLOR = (100, 150, 255) # Brighter blue for links
+    LINE_SPACING_SMALL = 25
+    LINE_SPACING_LARGE = 40
+    TOP_MARGIN = 50
+    BACKGROUND_COLOR = (25, 25, 45) # Darker purple/blue
+
     def load(self):
         print("CreditsScene Loading...")
-        self.engine.render_system.set_background_color(BACKGROUND_COLOR)
+        self.engine.render_system.set_background_color(self.BACKGROUND_COLOR)
 
         screen_width = self.engine.screen.width
         self.text_entities = [] # Store all created text entities for potential management
@@ -60,51 +61,51 @@ class CreditsScene(Scene): # Changed class name to CreditsScene for consistency
         # --- Add Credit Lines ---
 
         # Title
-        add_centered_line("Credits", TITLE_FONT_SIZE, TEXT_COLOR, current_y)
-        current_y += LINE_SPACING_LARGE * 1.5 # Extra space after title
+        add_centered_line("Credits", self.TITLE_FONT_SIZE, self.TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_LARGE * 1.5 # Extra space after title
 
         # Libraries Section
-        add_centered_line("Libraries", CATEGORY_FONT_SIZE, CATEGORY_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL
+        add_centered_line("Libraries", self.CATEGORY_FONT_SIZE, self.CATEGORY_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL
 
-        add_centered_line("Pygame", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL * 0.8
-        add_centered_line("https://www.pygame.org/", LINK_FONT_SIZE, LINK_COLOR, current_y, url="https://www.pygame.org/")
-        current_y += LINE_SPACING_LARGE
+        add_centered_line("Pygame", self.ITEM_FONT_SIZE, self.TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL * 0.8
+        add_centered_line("https://www.pygame.org/", self.LINK_FONT_SIZE, self.LINK_COLOR, current_y, url="https://www.pygame.org/")
+        current_y += self.LINE_SPACING_LARGE
 
-        add_centered_line("SteamworksPy", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL * 0.8
-        add_centered_line("https://github.com/philippj/SteamworksPy", LINK_FONT_SIZE, LINK_COLOR, current_y, url="https://github.com/philippj/SteamworksPy") # Corrected link (assuming Gramps fork is used)
+        add_centered_line("SteamworksPy", self.ITEM_FONT_SIZE, self.TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL * 0.8
+        add_centered_line("https://github.com/philippj/SteamworksPy", self.LINK_FONT_SIZE, self.LINK_COLOR, current_y, url="https://github.com/philippj/SteamworksPy") # Corrected link (assuming Gramps fork is used)
         # Note: If using philippj's original, adjust link. Ensure you credit the correct one.
-        current_y += LINE_SPACING_LARGE
+        current_y += self.LINE_SPACING_LARGE
 
         # Assets Section
-        add_centered_line("Assets", CATEGORY_FONT_SIZE, CATEGORY_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL
+        add_centered_line("Assets", self.CATEGORY_FONT_SIZE, self.CATEGORY_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL
 
-        add_centered_line("52 Card Decks - More Than Just A Game", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL * 0.8
-        add_centered_line("https://www.fab.com/...", LINK_FONT_SIZE, LINK_COLOR, current_y, url="https://www.fab.com/listings/57e8bc76-6f19-4b5e-bf09-e912eba4c88f") # Truncated link for display
+        add_centered_line("52 Card Decks - More Than Just A Game", self.ITEM_FONT_SIZE, self.TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL * 0.8
+        add_centered_line("https://www.fab.com/...", self.LINK_FONT_SIZE, self.LINK_COLOR, current_y, url="https://www.fab.com/listings/57e8bc76-6f19-4b5e-bf09-e912eba4c88f") # Truncated link for display
         # Note: The fab.com link might be transient or lead to a specific product listing.
         # Consider finding a more permanent link to the asset creator/source if possible.
-        current_y += LINE_SPACING_LARGE
+        current_y += self.LINE_SPACING_LARGE
 
-        add_centered_line("Music", CATEGORY_FONT_SIZE, CATEGORY_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL
-        add_centered_line("Alonzo Suarez", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL
-        add_centered_line("YouTube", ITEM_FONT_SIZE, LINK_COLOR, current_y, url="https://www.youtube.com/@StonePanda")
-        current_y += LINE_SPACING_LARGE
-        add_centered_line("Austin Trevino", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
-        current_y += LINE_SPACING_SMALL
-        add_centered_line("Linktr.ee", ITEM_FONT_SIZE, LINK_COLOR, current_y, url="https://linktr.ee/cursedatx")
-        current_y += LINE_SPACING_LARGE
+        add_centered_line("Music", self.CATEGORY_FONT_SIZE, self.CATEGORY_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL
+        add_centered_line("Alonzo Suarez", self.ITEM_FONT_SIZE, self.TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL
+        add_centered_line("YouTube", self.ITEM_FONT_SIZE, self.LINK_COLOR, current_y, url="https://www.youtube.com/@StonePanda")
+        current_y += self.LINE_SPACING_LARGE
+        add_centered_line("Austin Trevino", self.ITEM_FONT_SIZE, self.TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL
+        add_centered_line("Linktr.ee", self.ITEM_FONT_SIZE, self.LINK_COLOR, current_y, url="https://linktr.ee/cursedatx")
+        current_y += self.LINE_SPACING_LARGE
 
         # Add more sections/items as needed (e.g., Developer, Engine, Fonts, Music)
 
         # Return Instructions
-        current_y += LINE_SPACING_SMALL # Space before instructions
-        add_centered_line("Press ESC to return to Main Menu", ITEM_FONT_SIZE, TEXT_COLOR, current_y)
+        current_y += self.LINE_SPACING_SMALL # Space before instructions
+        add_centered_line("Press ESC to return to Main Menu", self.ITEM_FONT_SIZE, self.TEXT_COLOR, current_y)
 
 
         # --- Subscribe to Input ---

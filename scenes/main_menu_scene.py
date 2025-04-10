@@ -6,20 +6,21 @@ from engine.scene import Scene
 from engine.ui.text_entity import TextEntity
 
 # Constants specific to the Main Menu
-# NOTE: SCREEN_WIDTH/HEIGHT are now accessed via self.engine.screen
-MENU_FONT_NAME = None # Use Pygame default font
-MENU_FONT_SIZE = 48
-MENU_ITEM_FONT_SIZE = 36
-TEXT_COLOR = (230, 230, 230) # Light grey/white
-HIGHLIGHT_COLOR = (255, 255, 0) # Yellow
 
 
 class MainMenuScene(Scene):
+    # Class variables for Main Menu constants
+    MENU_FONT_NAME = None  # Use Pygame default font
+    MENU_FONT_SIZE = 48
+    MENU_ITEM_FONT_SIZE = 36
+    TEXT_COLOR = (230, 230, 230)  # Light grey/white
+    HIGHLIGHT_COLOR = (255, 255, 0)  # Yellow
+
     def load(self):
         print("MainMenuScene Loading...")
         screen_width = self.engine.screen.width
         screen_height = self.engine.screen.height
-
+        
         # --- Create Title (no changes needed) ---
         self.title = self.create_entity(TextEntity,
             text="Main Menu", font_name=MENU_FONT_NAME, font_size=MENU_FONT_SIZE,
@@ -40,7 +41,7 @@ class MainMenuScene(Scene):
                 text=option, font_name=MENU_FONT_NAME, font_size=MENU_ITEM_FONT_SIZE,
                 color=TEXT_COLOR, engine=self.engine,
                 x=screen_width // 2, y = start_y + i * y_spacing
-            )
+            )          
             if Render in entity.components and entity.components[Render].texture:
                 text_width = entity.components[Render].texture.get_width()
                 entity.components[Transform].x -= text_width // 2
@@ -108,7 +109,7 @@ class MainMenuScene(Scene):
         for i, entity in enumerate(self.menu_entities):
             # Extra check for entity validity before changing color
             if entity and hasattr(entity, 'color'):
-                 entity.color = HIGHLIGHT_COLOR if i == self.selected_index else TEXT_COLOR
+                 entity.color = self.HIGHLIGHT_COLOR if i == self.selected_index else self.TEXT_COLOR
 
     def select_option(self):
         # Add a check for menu_options existence

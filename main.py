@@ -9,17 +9,6 @@ from scenes.main_menu_scene import MainMenuScene
 from scenes.snake_scene import SnakeScene
 from scenes.credits import CreditsScene
 
-# --- Global Constants ---
-# Constants needed by main setup or potentially shared (like screen size)
-# --- Game Constants ---
-# Define Snake Grid parameters here
-SNAKE_GRID_WIDTH = 26
-SNAKE_GRID_HEIGHT = 20
-SNAKE_TILE_SIZE = 30
-# Calculate screen size based on Snake grid
-# Note: Other games might need different sizes, requiring window resizing later
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
 
 class PlaceholderScene(Scene):
     """A simple placeholder for minigames."""
@@ -82,12 +71,22 @@ class PlaceholderScene(Scene):
 if __name__ == "__main__":
     print("Initializing...")
     # Create Engine instance
+    # --- Game Constants ---
+    # Define Snake Grid parameters here
+    SNAKE_GRID_WIDTH = 26
+    SNAKE_GRID_HEIGHT = 20
+    SNAKE_TILE_SIZE = 30
+    # Calculate screen size based on Snake grid
+    # Note: Other games might need different sizes, requiring window resizing later
+    SCREEN_WIDTH = 800
+    SCREEN_HEIGHT = 600
+
     engine = Engine(pygame, fps_limit=60, assets_path="assets")
     # Set screen size properties AFTER engine init
     engine.screen.width = SCREEN_WIDTH
     engine.screen.height = SCREEN_HEIGHT
     engine.screen.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Minigame Hub")
+    pygame.display.set_caption("Minigame Hub")    
     engine.render_system.set_background_color((20, 20, 50)) # Dark blue background
 
     # Get the scene manager from the engine

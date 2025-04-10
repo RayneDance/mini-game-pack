@@ -13,50 +13,50 @@ from engine.components.drawables import DrawDepth # Corrected import name
 from engine.gameobj import Entity # Import base Entity for cards
 
 # --- Blackjack Constants ---
-# Appearance
-BACKGROUND_COLOR = (0, 80, 20) # Casino Green
-# CARD_FONT_SIZE = 40 # No longer needed for card display
-INFO_FONT_SIZE = 30
-MESSAGE_FONT_SIZE = 36
-TEXT_COLOR = (255, 255, 255) # White
-BUTTON_COLOR = (200, 200, 200)
-BUTTON_HOVER_COLOR = (255, 255, 0) # Yellow highlight
-DEALER_Y = 100
-PLAYER_Y = 350
-START_X_OFFSET = 300 # Initial X offset for first card
-CARD_SPACING = 80   # Horizontal space between card centers (adjust based on image size)
-BUTTON_Y = 500
-HIT_BUTTON_X = 200
-STAND_BUTTON_X = 400
-
-# Card Assets
-CARD_DECK_PATH = "Deck1" # Subdirectory within assets/images/
-CARD_BACK_FILENAME = "BackRed1.png" # <<< UPDATE if your card back name is different
-
-# Gameplay
-DECK_SUITS = ["H", "D", "C", "S"] # Hearts, Diamonds, Clubs, Spades
-DECK_RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"] # T=10
-BLACKJACK_VALUE = 21
-DEALER_STAND_MIN = 17
-
-# --- Define Target Card Size ---
-TARGET_CARD_WIDTH = 71   # Example: Standard poker size width
-TARGET_CARD_HEIGHT = 96 # Example: Standard poker size height
-
-# Game States
-STATE_DEALING = "DEALING"
-STATE_PLAYER_TURN = "PLAYER_TURN"
-STATE_DEALER_TURN = "DEALER_TURN"
-STATE_ROUND_OVER = "ROUND_OVER"
-
-# Card Suit Mapping for Filenames
-SUIT_TO_NAME = {"H": "Hearts", "D": "Diamonds", "C": "Clubs", "S": "Spades"}
-
 
 class BlackjackScene(Scene):
+    # --- Blackjack Constants ---
+    # Appearance
+    BACKGROUND_COLOR = (0, 80, 20)  # Casino Green
+    INFO_FONT_SIZE = 30
+    MESSAGE_FONT_SIZE = 36
+    TEXT_COLOR = (255, 255, 255)  # White
+    BUTTON_COLOR = (200, 200, 200)
+    BUTTON_HOVER_COLOR = (255, 255, 0)  # Yellow highlight
+    DEALER_Y = 100
+    PLAYER_Y = 350
+    START_X_OFFSET = 300  # Initial X offset for first card
+    CARD_SPACING = 80  # Horizontal space between card centers (adjust based on image size)
+    BUTTON_Y = 500
+    HIT_BUTTON_X = 200
+    STAND_BUTTON_X = 400
+
+    # Card Assets
+    CARD_DECK_PATH = "Deck1"  # Subdirectory within assets/images/
+    CARD_BACK_FILENAME = "BackRed1.png"  # <<< UPDATE if your card back name is different
+
+    # Gameplay
+    DECK_SUITS = ["H", "D", "C", "S"]  # Hearts, Diamonds, Clubs, Spades
+    DECK_RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]  # T=10
+    BLACKJACK_VALUE = 21
+    DEALER_STAND_MIN = 17
+
+    # --- Define Target Card Size ---
+    TARGET_CARD_WIDTH = 71  # Example: Standard poker size width
+    TARGET_CARD_HEIGHT = 96  # Example: Standard poker size height
+
+    # Game States
+    STATE_DEALING = "DEALING"
+    STATE_PLAYER_TURN = "PLAYER_TURN"
+    STATE_DEALER_TURN = "DEALER_TURN"
+    STATE_ROUND_OVER = "ROUND_OVER"
+
+    # Card Suit Mapping for Filenames
+    SUIT_TO_NAME = {"H": "Hearts", "D": "Diamonds", "C": "Clubs", "S": "Spades"}
+
     def load(self):
         print("BlackjackScene Loading...")
-        self.engine.render_system.set_background_color(BACKGROUND_COLOR)
+        self.engine.render_system.set_background_color(self.BACKGROUND_COLOR)
         self.engine.screen.set_screen_size(800, 600)
         self.engine.events.tick.subscribe(self._update)
         # Game State Variables
@@ -75,18 +75,18 @@ class BlackjackScene(Scene):
 
         self.consecutive_wins = 0
 
-        self.dealer_last_action = 0
+        self.dealer_last_action = 0 
 
         # --- Preload Card Back ---
         self.card_back_texture = self.engine.resource_manager.get_image(
-            f"{CARD_DECK_PATH}/{CARD_BACK_FILENAME}"
+            f"{self.CARD_DECK_PATH}/{self.CARD_BACK_FILENAME}"
         )
         if self.card_back_texture:
              # Assume all cards are the same size as the back initially
              self.card_size = self.card_back_texture.get_size()
              print(f"Detected Card Size: {self.card_size}")
         else:
-             print(f"ERROR: Could not load card back image: {CARD_BACK_FILENAME}")
+             print(f"ERROR: Could not load card back image: {self.CARD_BACK_FILENAME}")
              # Set a default size or handle error appropriately
              self.card_size = (71, 96) # Example fallback size
 
@@ -100,14 +100,14 @@ class BlackjackScene(Scene):
         self.player_score_text = self._create_ui_text("Score: 0", INFO_FONT_SIZE, x=info_x, y=PLAYER_Y + 30)
 
 
-        self.message_text = self._create_ui_text("", MESSAGE_FONT_SIZE, x=self.engine.screen.width // 2, y=250)
+        self.message_text = self._create_ui_text("", self.MESSAGE_FONT_SIZE, x=self.engine.screen.width // 2, y=250)
         # Centering will happen in _update_display
 
         # Buttons
-        self.hit_button = self._create_ui_text("[H]it", INFO_FONT_SIZE, x=HIT_BUTTON_X, y=BUTTON_Y, color=BUTTON_COLOR)
-        self.stand_button = self._create_ui_text("[S]tand", INFO_FONT_SIZE, x=STAND_BUTTON_X, y=BUTTON_Y, color=BUTTON_COLOR)
+        self.hit_button = self._create_ui_text("[H]it", self.INFO_FONT_SIZE, x=self.HIT_BUTTON_X, y=self.BUTTON_Y, color=self.BUTTON_COLOR)
+        self.stand_button = self._create_ui_text("[S]tand", self.INFO_FONT_SIZE, x=self.STAND_BUTTON_X, y=self.BUTTON_Y, color=self.BUTTON_COLOR)
 
-        # Subscribe Events
+        # Subscribe Event
         self.subscribe(self.engine.events.key_down, self.handle_input)
         self.subscribe(self.engine.events.mouse_button_down, self.handle_mouse_click)
 
@@ -138,9 +138,9 @@ class BlackjackScene(Scene):
         if not card: return None
         rank, suit = card
         try:
-            suit_name = SUIT_TO_NAME[suit]
+            suit_name = self.SUIT_TO_NAME[suit]
             # Rank seems to be direct: 2..9, T, J, Q, K, A
-            filename = f"{CARD_DECK_PATH}/{suit_name}{rank}.png"
+            filename = f"{self.CARD_DECK_PATH}/{suit_name}{rank}.png"
             return filename
         except KeyError:
             print(f"Error: Invalid suit '{suit}' in card {card}")
@@ -155,14 +155,14 @@ class BlackjackScene(Scene):
         if is_hidden:
             # Use preloaded scaled back texture
             texture = self.card_back_texture
-            filename_for_load = f"{CARD_DECK_PATH}/{CARD_BACK_FILENAME}" # For cache key consistency
+            filename_for_load = f"{self.CARD_DECK_PATH}/{self.CARD_BACK_FILENAME}" # For cache key consistency
         else:
             filename_for_load = self._get_card_filename(card_data)
             if filename_for_load:
                 # Load image using resource manager, specifying target size
                 texture = self.engine.resource_manager.get_image(
                     filename_for_load,
-                    target_width=TARGET_CARD_WIDTH,
+                    target_width=self.TARGET_CARD_WIDTH,
                     target_height=TARGET_CARD_HEIGHT
                 )
 
@@ -196,10 +196,10 @@ class BlackjackScene(Scene):
             card = hand_data[i]
             is_hidden = (hide_one and i == 1)
             # Use new CARD_SPACING
-            card_x = start_x + i * CARD_SPACING
+            card_x = start_x + i * self.CARD_SPACING
 
             if i < len(entity_list):  # Update existing
-                entity = entity_list[i]
+                entity = entity_list[i]  
                 entity.components[Transform].x = card_x
                 entity.components[Transform].y = y
                 # Update texture only if hidden state changes (or if needed)
@@ -212,8 +212,8 @@ class BlackjackScene(Scene):
                     if filename:
                         target_texture = self.engine.resource_manager.get_image(
                             filename,
-                            target_width=TARGET_CARD_WIDTH,
-                            target_height=TARGET_CARD_HEIGHT
+                            target_width=self.TARGET_CARD_WIDTH,
+                            target_height=self.TARGET_CARD_HEIGHT
                         )
                 # Update only if texture differs (and target texture loaded ok)
                 if target_texture and entity.components[Render].texture != target_texture:
@@ -231,8 +231,7 @@ class BlackjackScene(Scene):
     # --- UI Helper (Remains the same) ---
     def _create_ui_text(self, text, size, x, y, color=TEXT_COLOR, depth=DrawDepth.UI):
          # ... (no changes) ...
-         entity = self.create_entity(TextEntity,
-            text=text, font_name=None, font_size=size, color=color,
+         entity = self.create_entity(TextEntity, text=text, font_name=None, font_size=size, color=color,
             engine=self.engine, x=x, y=y, depth=depth
          )
          return entity
@@ -264,10 +263,10 @@ class BlackjackScene(Scene):
             if rank.isdigit():
                 value += int(rank)
             elif rank in ["T", "J", "Q", "K"]:
-                value += 10
+                value += 10 
             elif rank == "A":
                 ace_count += 1
-                value += 11 # Assume 11 initially
+                value += 11  # Assume 11 initially
 
         while value > BLACKJACK_VALUE and ace_count > 0:
             value -= 10
@@ -290,13 +289,13 @@ class BlackjackScene(Scene):
         self._shuffle_deck()
         self.dealer_card_hidden = True
         self.message = ""
-
+        
         # Deal initial cards to logical hands
         self._deal_card(self.player_hand)
         self._deal_card(self.dealer_hand)
         self._deal_card(self.player_hand)
         self._deal_card(self.dealer_hand)
-
+        
         self.player_score = self._calculate_hand_value(self.player_hand)
         self.dealer_score = self._calculate_hand_value(self.dealer_hand, count_hidden=False)
 
@@ -304,11 +303,11 @@ class BlackjackScene(Scene):
         if self.player_score == BLACKJACK_VALUE:
             # ... (Blackjack check logic remains the same) ...
             self.dealer_card_hidden = False
-            self.dealer_score = self._calculate_hand_value(self.dealer_hand)
+            self.dealer_score = self._calculate_hand_value(self.dealer_hand) 
             if self.dealer_score == BLACKJACK_VALUE:
                  self._end_round("Push! Both have Blackjack!")
             else:
-                 self._end_round("Blackjack! Player wins!")
+                 self._end_round("Blackjack! Player wins!") 
         else:
             self.game_state = STATE_PLAYER_TURN
             self.message = "Player turn: [H]it or [S]tand?"
@@ -339,7 +338,7 @@ class BlackjackScene(Scene):
         self.message = "Dealer's turn..."
         self._update_display() # Update display to show revealed card
 
-
+    
     def _dealer_play(self):
         if self.dealer_score < DEALER_STAND_MIN:
             print("Dealer hits.")
@@ -381,7 +380,7 @@ class BlackjackScene(Scene):
     def _update_display(self):
         """Updates scores, messages, and syncs card entities."""
         # Sync graphical cards using updated constants
-        self._sync_card_entities(self.player_hand, self.player_card_entities, START_X_OFFSET, PLAYER_Y)
+        self._sync_card_entities(self.player_hand, self.player_card_entities, self.START_X_OFFSET, self.PLAYER_Y)
         self._sync_card_entities(self.dealer_hand, self.dealer_card_entities, START_X_OFFSET, DEALER_Y,
                                  hide_one=self.dealer_card_hidden)
 
@@ -404,8 +403,8 @@ class BlackjackScene(Scene):
 
         # Update Button Appearance
         is_player_turn = (self.game_state == STATE_PLAYER_TURN)
-        self.hit_button.color = BUTTON_HOVER_COLOR if is_player_turn else BUTTON_COLOR
-        self.stand_button.color = BUTTON_HOVER_COLOR if is_player_turn else BUTTON_COLOR
+        self.hit_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR
+        self.stand_button.color = self.BUTTON_HOVER_COLOR if is_player_turn else self.BUTTON_COLOR
 
 
     # --- Input Handling (Remains largely the same, but add click-to-restart) ---
