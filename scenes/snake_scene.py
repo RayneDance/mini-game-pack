@@ -317,8 +317,8 @@ class SnakeScene(Scene):
 
         # Reset state variables
         self.score = 0
-        self.direction = RIGHT
-        self.next_direction = RIGHT
+        self.direction = self.RIGHT
+        self.next_direction = self.RIGHT
         self.move_timer = 0.0
         self.is_game_over = False
 

@@ -226,8 +226,9 @@ class BlackjackScene(Scene):
 
 
     # --- UI Helper (Remains the same) ---
-    def _create_ui_text(self, text, size, x, y, color=self.TEXT_COLOR, depth=DrawDepth.UI):
-         # ... (no changes) ...
+    def _create_ui_text(self, text, size, x, y, color=None, depth=DrawDepth.UI):
+         if color is None:
+             color = self.TEXT_COLOR
          entity = self.create_entity(TextEntity, text=text, font_name=None, font_size=size, color=color,
             engine=self.engine, x=x, y=y, depth=depth
          )
